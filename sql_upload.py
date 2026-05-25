@@ -41,9 +41,7 @@ class SQLDataUpload:
 
     def load_csv(self, file_path: str) -> pd.DataFrame:
         """
-        Reads the CSV file and returns a clean DataFrame.
-        The SMS Spam dataset from Kaggle has 5 columns but we are going to select
-        the first two : v1 (label) and v2 (message).
+        Reads the CSV file and returns DataFrame.
         """
         try:
             
@@ -62,11 +60,6 @@ class SQLDataUpload:
     def insert_data_to_SQL(self, dataframe: pd.DataFrame, table_name: str = TABLE_NAME) -> int:
         """
         Pushes the DataFrame into a PostgreSQL table.
-
-        if_exists='replace' → Drops and recreates the table every time.
-        Good for development. In production use 'append' or handle migrations.
-
-        index=False → Don't write the DataFrame index as a column in the DB.
         """
         try:
             dataframe.to_sql(
