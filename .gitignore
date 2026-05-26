@@ -182,7 +182,10 @@ cython_debug/
 .cursorindexingignore
 
 # Data files (handled by DVC)
-data/raw/
-data/processed/
-*.csv
-*.json
+# Ignore actual data files
+data/**/*.csv
+data/**/*.json
+data/**/*.parquet
+
+# But allow DVC tracking files
+!data/**/*.dvc
