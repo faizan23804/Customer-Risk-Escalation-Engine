@@ -1,6 +1,6 @@
-/X_train.csv
-/X_test.csv
-/y_train.csv
-/y_test.csv
-/text_train.csv
 /text_test.csv
+/text_train.csv
+/y_test.csv
+/y_train.csv
+/X_test.csv
+/X_train.csv
