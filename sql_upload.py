@@ -84,7 +84,7 @@ class SQLDataUpload:
 #Run this file directly to upload your dataset
 if __name__ == '__main__':
     try:
-        FILE_PATH = "data/raw_data/customer_tkt.csv"
+        FILE_PATH = "data/raw_data/synthetic_it_support_tickets.csv"
 
         uploader = SQLDataUpload()
 

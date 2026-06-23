@@ -20,7 +20,8 @@ list_of_files = [
     f"{project_name}/database/sql_client.py",
     "app.py",
     "notebooks/test1.ipynb",
-    "data/raw_data/processed_data/sample",
+    "data/raw_data",
+    "data/processed_data",
     "requirements.txt",
     "Dockerfile",
     ".dockerignore",
@@ -47,7 +48,7 @@ for filepath in list_of_files:
         print(f"File already exists at: {filepath}")
 
 
-filepath = "Customer_Risk_Escalation/data"
+filepath = ""
 
 try:
     if os.path.exists(filepath) and os.path.isfile(filepath):
