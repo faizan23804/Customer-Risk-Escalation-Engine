@@ -1,0 +1,23 @@
+artifact_path: file:///D:/End-to-end-ML/Customer-Risk-Escalation-Engine/mlruns/1/models/m-e178e26efb1b43328c1ff8954fd04434/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.11.15
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.8.0
+    skops_trusted_types: null
+mlflow_version: 3.12.0
+model_id: m-e178e26efb1b43328c1ff8954fd04434
+model_size_bytes: 18013339
+model_uuid: m-e178e26efb1b43328c1ff8954fd04434
+prompts: null
+run_id: 8b169390fcfc4bd3bc1d2ad847360cf6
+utc_time_created: '2026-06-24 06:33:16.491875'

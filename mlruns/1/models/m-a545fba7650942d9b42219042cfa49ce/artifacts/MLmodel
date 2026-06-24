@@ -1,0 +1,22 @@
+artifact_path: file:///D:/End-to-end-ML/Customer-Risk-Escalation-Engine/mlruns/1/models/m-a545fba7650942d9b42219042cfa49ce/artifacts
+flavors:
+  python_function:
+    data: model.ubj
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.xgboost
+    python_version: 3.11.15
+  xgboost:
+    code: null
+    data: model.ubj
+    model_class: xgboost.sklearn.XGBClassifier
+    model_format: ubj
+    xgb_version: 3.2.0
+mlflow_version: 3.12.0
+model_id: m-a545fba7650942d9b42219042cfa49ce
+model_size_bytes: 367683
+model_uuid: m-a545fba7650942d9b42219042cfa49ce
+prompts: null
+run_id: 5470893ca44b42e78199a8584ef31600
+utc_time_created: '2026-06-24 12:03:46.406788'
