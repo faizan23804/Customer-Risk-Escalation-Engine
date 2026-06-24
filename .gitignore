@@ -189,6 +189,7 @@ data/**/*.parquet
 
 # But allow DVC tracking files
 !data/**/*.dvc
+
 # MLflow experiment tracking
 mlruns/
 mlartifacts/
