@@ -1,0 +1,5 @@
+outs:
+- md5: a6529f5da38cf143d6b81b28e32c083a
+  size: 245760128
+  hash: md5
+  path: train_embeddings.npy
