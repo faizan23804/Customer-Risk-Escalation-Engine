@@ -1,0 +1,5 @@
+outs:
+- md5: 7b9e54941197c994911c8515a188c689
+  size: 911364
+  hash: md5
+  path: fusion_model.pkl

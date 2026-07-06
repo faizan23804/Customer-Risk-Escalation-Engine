@@ -1,5 +1,5 @@
 outs:
-- md5: 6a30a022521a14253d1141ac371ee91c
-  size: 814567
+- md5: 9a3ca7fcd0ae5cdd88b8737d4c20e3d8
+  size: 813275
   hash: md5
   path: best_tabular_model.pkl
