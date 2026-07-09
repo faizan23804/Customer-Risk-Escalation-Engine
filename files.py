@@ -13,13 +13,15 @@ list_of_files = [
     f"{project_name}/components/data_transformation.py",
     f"{project_name}/components/model_trainer.py",
     f"{project_name}/constant/__init__.py",
+    f"{project_name}/entity/artifact_entity.py",
+    f"{project_name}/entity/config_entity.py",
+    f"{project_name}/entity/__init__.py",
     f"{project_name}/exceptions/__init__.py",
     f"{project_name}/exceptions/exception.py",
     f"{project_name}/logger/__init__.py",
     f"{project_name}/logger/logging.py",
     f"{project_name}/database/sql_client.py",
     "app.py",
-    "notebooks/test1.ipynb",
     "data/raw_data",
     "data/processed_data",
     "requirements.txt",
@@ -48,7 +50,7 @@ for filepath in list_of_files:
         print(f"File already exists at: {filepath}")
 
 
-filepath = ""
+filepath = " "
 
 try:
     if os.path.exists(filepath) and os.path.isfile(filepath):
