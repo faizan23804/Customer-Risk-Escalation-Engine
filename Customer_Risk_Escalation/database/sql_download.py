@@ -49,6 +49,7 @@ class SQLClient:
         except Exception as e:
             raise CustomException(e, sys)
 
+#Mian Guard is Only for testing if teh script connects to db without error.
 if __name__ == "__main__":
     config = DataIngestionConfig()
     SQLClient.download_data(output_path=config.raw_data_path)

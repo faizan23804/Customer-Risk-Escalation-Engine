@@ -18,3 +18,20 @@ training_pipeline_config : TrainingPipelineConfig = TrainingPipelineConfig()
 class DataIngestionConfig:
     data_ingestion_dir: str = os.path.join(training_pipeline_config.artifact_dir, DATA_INGESTION_DIR_NAME)
     raw_data_path: str = os.path.join(data_ingestion_dir, DATA_INGESTION_DATA_STORE_DIR, FILE_NAME)
+
+@dataclass
+class DataTransformationConfig:
+    data_transformation_dir:str = os.path.join(training_pipeline_config.artifact_dir, DATA_TRANSFORMATION_DIR_NAME)
+    transformed_train_dir:str = os.path.join(data_transformation_dir,DATA_TRANSFORMATION_TRAIN_DIR)
+    transformed_test_dir:str = os.path.join(data_transformation_dir,DATA_TRANSFORMATION_TEST_DIR)
+    transformed_scaled_dir:str = os.path.join(data_transformation_dir,DATA_TRANSFORMATION_SCALER_DIR)
+
+    X_train_path:str = os.path.join(transformed_train_dir,X_TRAIN_FILE_NAME)
+    X_test_path:str = os.path.join(transformed_test_dir,X_TEST_FILE_NAME)
+    y_train_path:str = os.path.join(transformed_train_dir,Y_TRAIN_FILE_NAME)
+    y_test_path:str = os.path.join(transformed_test_dir,Y_TEST_FILE_NAME)
+
+    text_train_path:str = os.path.join(transformed_train_dir,TEXT_TRAIN_FILE_NAME)
+    text_test_path:str = os.path.join(transformed_test_dir,TEXT_TEST_FILE_NAME)
+    
+    scaler_path:str = os.path.join(transformed_scaled_dir,SCALER_FILE_NAME)
