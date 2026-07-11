@@ -10,11 +10,24 @@ ARTIFACTS_DIR:str = "artifacts"
 FILE_NAME:str = "supporttkts.csv"
 CURRENT_YEAR = date.today().year
 
+SCHEMA_FILE_PATH = os.path.join('Customer_Risk_Escalation','config','schema.yaml')
+
+
 """
 Data Ingestion related constant.
 """
 DATA_INGESTION_DIR_NAME:str = "data_ingestion"
 DATA_INGESTION_DATA_STORE_DIR:str = "data_store"
+
+
+"""
+Data Validation related constant.
+"""
+DATA_VALIDATION_DIR_NAME:str = "data_validation"
+DATA_VALIDATION_REPORT_DIR:str = "reports"
+DATA_VALIDATION_REPORT_FILE_NAME:str = "validation_report.yaml"
+DATA_VALIDATION_STATUS_FILE:str = "validation_status.txt"
+DATA_VALIDATION_DRIFT_DASHBOARD_NAME:str = "drift_dashboard.html"
 
 
 """

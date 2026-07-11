@@ -1,10 +1,20 @@
 from dataclasses import dataclass
 
+
 @dataclass
 class DataIngestionArtifact:
     raw_data_path: str      
     row_count: int          
     column_count: int 
+
+
+@dataclass
+class DataValidationArtifact:
+    validation_status:bool
+    report_file_path:str
+    status_file_path:str
+    drift_dashboard_file_path: str
+
 
 @dataclass
 class DataTransformationArtifact:

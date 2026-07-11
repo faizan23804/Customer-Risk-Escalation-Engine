@@ -18,7 +18,7 @@ uvicorn
 mlflow
 dvc
 
-evidently
+evidently==0.4.16
 shap
 
 matplotlib

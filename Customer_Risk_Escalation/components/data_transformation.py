@@ -15,9 +15,10 @@ from Customer_Risk_Escalation.entity.config_entity import *
 
 class DataTransformation:
 
-    def __init__(self,data_ingestion_artifact: DataIngestionArtifact, data_transformation_config: DataTransformationConfig):
+    def __init__(self,data_ingestion_artifact: DataIngestionArtifact, data_transformation_config: DataTransformationConfig, data_validation_artifact: DataValidationArtifact):
         try:
             self.data_ingestion_artifact = data_ingestion_artifact
+            self.data_validation_artifact = data_validation_artifact
             self.data_transformation_config = data_transformation_config
         except Exception as e:
             raise CustomException(e,sys)

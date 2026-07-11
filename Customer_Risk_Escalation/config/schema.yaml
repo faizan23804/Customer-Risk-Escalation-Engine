@@ -1,0 +1,53 @@
+columns:
+  ticket_id:                 object
+  created_at:                object
+  customer_id:               object
+  customer_segment:          object
+  channel:                   object
+  product_area:              object
+  issue_type:                object
+  priority:                  object
+  status:                    object
+  sla_plan:                  object
+  initial_message:           object
+  agent_first_reply:         object
+  resolution_summary:        object
+  resolution_time_hours:    float64
+  reopened:                   int64
+  customer_sentiment:        object
+  csat_score:                 int64
+  has_attachment:             int64
+  platform:                  object
+  region:                    object
+
+
+numerical_columns:
+  - resolution_time_hours
+  - reopened
+  - csat_score
+  - has_attachment
+
+categorical_columns:
+  - ticket_id
+  - created_at
+  - customer_id
+  - customer_segment
+  - channel
+  - product_area
+  - issue_type
+  - priority
+  - status
+  - sla_plan
+  - initial_message
+  - agent_first_reply
+  - resolution_summary
+  - customer_sentiment
+  - platform
+  - region
+
+
+target_defining_columns:
+  - customer_sentiment
+  - csat_score
+  - status
+
