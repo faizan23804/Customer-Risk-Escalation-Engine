@@ -27,3 +27,13 @@ class DataTransformationArtifact:
     text_test_path:str
     
     scaler_path:str
+
+
+@dataclass
+class ModelTrainerArtifact:
+    trained_model_path:str
+    model_name:str
+    recall:float
+    precision:float
+    f1_score:float
+    roc_auc:float

@@ -1,6 +1,7 @@
 from Customer_Risk_Escalation.components.data_ingestion import DataIngestion
 from Customer_Risk_Escalation.components.data_validation import DataValidation
 from Customer_Risk_Escalation.components.data_transformation import DataTransformation
+from Customer_Risk_Escalation.components.tabular_model_trainer import ModelTrainer
 from Customer_Risk_Escalation.exceptions.exception import CustomException
 from Customer_Risk_Escalation.logger.logging import logging
 from Customer_Risk_Escalation.entity.artifact_entity import *
@@ -14,6 +15,7 @@ class trainPipeline:
         self.data_ingestion_config = DataIngestionConfig()
         self.data_validation_config = DataValidationConfig()
         self.data_transformation_config = DataTransformationConfig()
+        self.model_trainer_config = ModelTrainerConfig()
 
 
     def start_data_ingestion(self):
@@ -50,6 +52,21 @@ class trainPipeline:
         except Exception as e:
             raise CustomException(e, sys)
         
+    
+    def start_model_trainer(self,data_transformation_artifact: DataTransformationArtifact) -> ModelTrainerArtifact:
+        try:
+            logging.info("Entered the Tabular start_mode_trainer method of TrainPipeline class")
+
+            model_trainer = ModelTrainer(data_transformation_artifact=data_transformation_artifact,
+                                         model_trainer_config=self.model_trainer_config)
+            model_trainer_artifact = model_trainer.initialize_model_trainer()
+            logging.info("Performed and Exited the Tabular Model trainer method")
+
+            return model_trainer_artifact
+        except Exception as e:
+            raise CustomException(e, sys)
+
+        
 
     
 
@@ -58,7 +75,7 @@ class trainPipeline:
             data_ingestion_artifact = self.start_data_ingestion()
             data_validation_artifact = self.start_data_validation(data_ingestion_artifact=data_ingestion_artifact)
             data_transformation_artifact = self.start_data_transformation(data_ingestion_artifact=data_ingestion_artifact,data_validation_artifact = data_validation_artifact)
-            
+            model_trainer_artifact = self.start_model_trainer(data_transformation_artifact=data_transformation_artifact)
         except Exception as e:
             raise CustomException(e, sys)
 

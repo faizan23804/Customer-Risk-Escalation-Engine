@@ -1,6 +1,4 @@
 import os
-import sys
-import numpy as np # type: ignore
 from datetime import date
 
 DATABASE_NAME = "customer_escalation"
@@ -52,3 +50,17 @@ SENTINEL_VALUE:int = -1
 UNKNOWN_FILL:str = "Unknown"
 UNRESOLVED_FILL:str = "unresolved"
 RESOLUTION_TIME_THRESHOLD:int = 120
+
+
+"""
+Tabular Data Model Training related constant.
+"""
+MODEL_TRAINER_DIR_NAME:str = "model_trainer"
+MODEL_TRAINER_TRAINED_MODEL_DIR:str = "trained_model"
+MODEL_TRAINER_MODEL_FILE_NAME:str = "model.pkl"
+
+MODEL_TRAINER_EXPECTED_RECALL:float = 0.80
+MODEL_TRAINER_EXPECTED_AUC:float = 0.75
+
+MLFLOW_TRACKING_URI:str = "file:///D:/End-to-end-ML/Customer-Risk-Escalation-Engine/mlruns"
+MLFLOW_EXPERIMENT_NAME:str = "customer_escalation_tabular1"

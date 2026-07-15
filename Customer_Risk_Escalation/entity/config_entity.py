@@ -47,3 +47,12 @@ class DataTransformationConfig:
     text_test_path:str = os.path.join(transformed_test_dir,TEXT_TEST_FILE_NAME)
     
     scaler_path:str = os.path.join(transformed_scaled_dir,SCALER_FILE_NAME)
+
+
+@dataclass
+class ModelTrainerConfig:
+    model_trainer_dir:str = os.path.join(training_pipeline_config.artifact_dir,MODEL_TRAINER_DIR_NAME)
+    trained_model_dir:str = os.path.join(model_trainer_dir,MODEL_TRAINER_TRAINED_MODEL_DIR)
+    trained_model_path:str = os.path.join(trained_model_dir,MODEL_TRAINER_MODEL_FILE_NAME)
+    expected_recall:float = MODEL_TRAINER_EXPECTED_RECALL
+    expected_auc:float = MODEL_TRAINER_EXPECTED_AUC
