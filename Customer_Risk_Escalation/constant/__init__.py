@@ -64,3 +64,18 @@ MODEL_TRAINER_EXPECTED_AUC:float = 0.75
 
 MLFLOW_TRACKING_URI:str = "file:///D:/End-to-end-ML/Customer-Risk-Escalation-Engine/mlruns"
 MLFLOW_EXPERIMENT_NAME:str = "customer_escalation_tabular1"
+
+
+"""
+NLP Data Model Training related constant.
+"""
+NLP_DIR_NAME:str = "nlp_trainer"
+NLP_EMBEDDINGS_DIR:str = "embeddings"
+
+NLP_TRAIN_EMBEDDINGS_FILE:str = "train_embeddings.npy"
+NLP_TEST_EMBEDDINGS_FILE:str = "test_embeddings.npy"
+
+DISTILBERT_MODEL_NAME:str = "distilbert-base-uncased"
+MLFLOW_EXPERIMENT_NLP:str = "customer_escalation_nlp1"
+NLP_MAX_LENGTH:int = 128
+NLP_BATCH_SIZE:int = 32

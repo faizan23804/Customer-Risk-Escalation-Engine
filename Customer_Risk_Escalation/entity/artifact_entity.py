@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+import numpy as np # type: ignore
 
 
 @dataclass
@@ -37,3 +38,12 @@ class ModelTrainerArtifact:
     precision:float
     f1_score:float
     roc_auc:float
+
+
+@dataclass
+class NLPTrainerArtifact:
+    train_embeddings_path:str
+    test_embedding_path:str
+    embedding_dimensions:int
+    train_samples: np.array
+    test_samples:np.array

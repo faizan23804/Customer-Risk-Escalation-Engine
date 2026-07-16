@@ -56,3 +56,14 @@ class ModelTrainerConfig:
     trained_model_path:str = os.path.join(trained_model_dir,MODEL_TRAINER_MODEL_FILE_NAME)
     expected_recall:float = MODEL_TRAINER_EXPECTED_RECALL
     expected_auc:float = MODEL_TRAINER_EXPECTED_AUC
+
+
+@dataclass
+class NLPTrainerConfig:
+    nlp_trainer_dir:str = os.path.join(training_pipeline_config.artifact_dir, NLP_DIR_NAME)
+    embeddings_dir:str = os.path.join(nlp_trainer_dir,NLP_EMBEDDINGS_DIR)
+    train_embeddings_path:str = os.path.join(embeddings_dir, NLP_TRAIN_EMBEDDINGS_FILE)
+    test_embeddings_path:str = os.path.join(embeddings_dir, NLP_TEST_EMBEDDINGS_FILE)
+    model_name:str = DISTILBERT_MODEL_NAME
+    max_length:int = NLP_MAX_LENGTH
+    batch_size:int = NLP_BATCH_SIZE

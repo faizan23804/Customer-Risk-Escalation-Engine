@@ -2,6 +2,7 @@ from Customer_Risk_Escalation.components.data_ingestion import DataIngestion
 from Customer_Risk_Escalation.components.data_validation import DataValidation
 from Customer_Risk_Escalation.components.data_transformation import DataTransformation
 from Customer_Risk_Escalation.components.tabular_model_trainer import ModelTrainer
+from Customer_Risk_Escalation.components.nlp_trainer import NLPTrainer
 from Customer_Risk_Escalation.exceptions.exception import CustomException
 from Customer_Risk_Escalation.logger.logging import logging
 from Customer_Risk_Escalation.entity.artifact_entity import *
@@ -16,6 +17,7 @@ class trainPipeline:
         self.data_validation_config = DataValidationConfig()
         self.data_transformation_config = DataTransformationConfig()
         self.model_trainer_config = ModelTrainerConfig()
+        self.nlp_trainer_config = NLPTrainerConfig()
 
 
     def start_data_ingestion(self):
@@ -65,6 +67,20 @@ class trainPipeline:
             return model_trainer_artifact
         except Exception as e:
             raise CustomException(e, sys)
+        
+    
+    def start_nlp_trainer(self,data_transformation_artifact: DataTransformationArtifact) -> NLPTrainerArtifact:
+        try:
+            logging.info("Entered the NLP start_nlp_trainer method of TrainPipeline class")
+
+            nlp_trainer = NLPTrainer(data_transformation_artifact=data_transformation_artifact,
+                                         nlp_trainer_config=self.nlp_trainer_config)
+            nlp_trainer_artifact = nlp_trainer.initialize_nlp_trainer()
+            logging.info("Performed and Exited the NLP trainer method")
+
+            return nlp_trainer_artifact
+        except Exception as e:
+            raise CustomException(e, sys)
 
         
 
@@ -76,6 +92,7 @@ class trainPipeline:
             data_validation_artifact = self.start_data_validation(data_ingestion_artifact=data_ingestion_artifact)
             data_transformation_artifact = self.start_data_transformation(data_ingestion_artifact=data_ingestion_artifact,data_validation_artifact = data_validation_artifact)
             model_trainer_artifact = self.start_model_trainer(data_transformation_artifact=data_transformation_artifact)
+            nlp_trainer_artifact = self.start_nlp_trainer(data_transformation_artifact=data_transformation_artifact)
         except Exception as e:
             raise CustomException(e, sys)
 
