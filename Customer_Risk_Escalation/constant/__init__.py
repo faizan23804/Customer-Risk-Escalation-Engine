@@ -79,3 +79,12 @@ DISTILBERT_MODEL_NAME:str = "distilbert-base-uncased"
 MLFLOW_EXPERIMENT_NLP:str = "customer_escalation_nlp1"
 NLP_MAX_LENGTH:int = 128
 NLP_BATCH_SIZE:int = 32
+
+"""
+Fusion Model Training related constant.
+"""
+FUSION_DIR_NAME:str = "late_fusion"
+FUSION_MODEL_DIR:str = "fusion_model"
+FUSION_MODEL_FILE_NAME:str = "fusion_model.pkl"
+MLFLOW_EXPERIMENT_FUSION:str = "customer_escalation_fusion1"
+FUSION_EXPECTED_RECALL:float = 0.80

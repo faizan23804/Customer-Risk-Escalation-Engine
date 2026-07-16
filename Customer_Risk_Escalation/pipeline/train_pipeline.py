@@ -3,6 +3,7 @@ from Customer_Risk_Escalation.components.data_validation import DataValidation
 from Customer_Risk_Escalation.components.data_transformation import DataTransformation
 from Customer_Risk_Escalation.components.tabular_model_trainer import ModelTrainer
 from Customer_Risk_Escalation.components.nlp_trainer import NLPTrainer
+from Customer_Risk_Escalation.components.fusion_model import FusionModel
 from Customer_Risk_Escalation.exceptions.exception import CustomException
 from Customer_Risk_Escalation.logger.logging import logging
 from Customer_Risk_Escalation.entity.artifact_entity import *
@@ -18,6 +19,7 @@ class trainPipeline:
         self.data_transformation_config = DataTransformationConfig()
         self.model_trainer_config = ModelTrainerConfig()
         self.nlp_trainer_config = NLPTrainerConfig()
+        self.fusion_model_config = FusionConfig()
 
 
     def start_data_ingestion(self):
@@ -81,10 +83,26 @@ class trainPipeline:
             return nlp_trainer_artifact
         except Exception as e:
             raise CustomException(e, sys)
+        
+    
+    def start_model_fusion(self,data_transformation_artifact: DataTransformationArtifact,
+                  model_trainer_artifact: ModelTrainerArtifact,
+                  nlp_trainer_artifact: NLPTrainerArtifact) -> FusionArtifact:
+        try:
+            logging.info("Entered the NLP start_model_fusion method of TrainPipeline class")
+
+            fusion_model = FusionModel(data_transformation_artifact=data_transformation_artifact,
+                                      model_trainer_artifact=model_trainer_artifact,
+                                        nlp_trainer_artifact=nlp_trainer_artifact,
+                                        fusion_model_config=self.fusion_model_config)
+            fusion_model_artifact = fusion_model.initialize_fusion_model()
+            logging.info("Performed and Exited the Model Fusion method")
+            return fusion_model_artifact
+        except Exception as e:
+            raise CustomException(e, sys)
 
         
 
-    
 
     def run_pipeline(self):
         try:
@@ -93,6 +111,9 @@ class trainPipeline:
             data_transformation_artifact = self.start_data_transformation(data_ingestion_artifact=data_ingestion_artifact,data_validation_artifact = data_validation_artifact)
             model_trainer_artifact = self.start_model_trainer(data_transformation_artifact=data_transformation_artifact)
             nlp_trainer_artifact = self.start_nlp_trainer(data_transformation_artifact=data_transformation_artifact)
+            fusion_model_artifact = self.start_model_fusion(data_transformation_artifact=data_transformation_artifact,
+                                                            model_trainer_artifact=model_trainer_artifact,
+                                                            nlp_trainer_artifact=nlp_trainer_artifact)
         except Exception as e:
             raise CustomException(e, sys)
 

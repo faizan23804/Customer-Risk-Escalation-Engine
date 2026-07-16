@@ -67,3 +67,10 @@ class NLPTrainerConfig:
     model_name:str = DISTILBERT_MODEL_NAME
     max_length:int = NLP_MAX_LENGTH
     batch_size:int = NLP_BATCH_SIZE
+
+
+@dataclass
+class FusionConfig:
+    fusion_dir:str = os.path.join(training_pipeline_config.artifact_dir,FUSION_DIR_NAME)
+    fusion_model_dir:str = os.path.join(fusion_dir,FUSION_MODEL_DIR)
+    fusion_model_path:str = os.path.join(fusion_model_dir,FUSION_MODEL_FILE_NAME)

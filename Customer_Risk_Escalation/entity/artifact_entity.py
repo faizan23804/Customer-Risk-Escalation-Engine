@@ -47,3 +47,11 @@ class NLPTrainerArtifact:
     embedding_dimensions:int
     train_samples: np.array
     test_samples:np.array
+
+
+@dataclass
+class FusionArtifact:
+    fusion_model_path:str
+    recall:float
+    f1_score:float
+    roc_auc:float
