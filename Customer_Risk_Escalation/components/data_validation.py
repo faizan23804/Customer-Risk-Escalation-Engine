@@ -223,6 +223,7 @@ class DataValidation:
                 status_file_path          = self.data_validation_config.status_file_path
             )
             logging.info("Data Validation Completed. Status: PASSED")
+            logging.info("\n" + "="*75)
             
             return data_validation_artifact
         except Exception as e:

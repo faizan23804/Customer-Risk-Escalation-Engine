@@ -28,6 +28,7 @@ class DataTransformationArtifact:
     text_test_path:str
     
     scaler_path:str
+    label_encoder_path : str
 
 
 @dataclass

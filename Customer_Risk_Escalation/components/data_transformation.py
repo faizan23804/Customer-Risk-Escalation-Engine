@@ -110,20 +110,28 @@ class DataTransformation:
         try:
             priority_map = {
                 'low': 1, 'medium': 2, 'high': 3, 'urgent': 4
-                }
+            }
             df['priority'] = df['priority'].map(priority_map)
 
-            le = LabelEncoder()
-            cat_cols = [
-                'customer_segment', 'product_area', 'issue_type', 'sla_plan', 'created_month']
-                
-            for col in cat_cols:
-                df[col] = le.fit_transform(df[col])
+            label_encoders = {}
+            cat_cols = ['customer_segment', 'product_area', 
+                        'issue_type', 'sla_plan', 'created_month']
 
-            logging.info("Encoded the categorical Columns.")
+            for col in cat_cols:
+                le = LabelEncoder()          # fresh encoder per column
+                df[col] = le.fit_transform(df[col])
+                label_encoders[col] = le     # store it
+
+            os.makedirs(self.data_transformation_config.label_encoder_dir,exist_ok=True)
+
+            joblib.dump(label_encoders,self.data_transformation_config.label_encoder_path)
+
+            logging.info(f"Label encoders saved: {list(label_encoders.keys())}")
+
             return df
+
         except Exception as e:
-            raise CustomException(e,sys)
+            raise CustomException(e, sys)
         
     
     def split_data(self,df,text_data):
@@ -236,13 +244,15 @@ class DataTransformation:
 
             #Return Artifacts
             return DataTransformationArtifact(
-                X_train_path    = self.data_transformation_config.X_train_path,
-                X_test_path     = self.data_transformation_config.X_test_path,
-                y_train_path    = self.data_transformation_config.y_train_path,
-                y_test_path     = self.data_transformation_config.y_test_path,
+                X_train_path = self.data_transformation_config.X_train_path,
+                X_test_path = self.data_transformation_config.X_test_path,
+                y_train_path = self.data_transformation_config.y_train_path,
+                y_test_path = self.data_transformation_config.y_test_path,
                 text_train_path = self.data_transformation_config.text_train_path,
-                text_test_path  = self.data_transformation_config.text_test_path,
-                scaler_path     = self.data_transformation_config.scaler_path)
+                text_test_path = self.data_transformation_config.text_test_path,
+                scaler_path = self.data_transformation_config.scaler_path,
+                label_encoder_path=self.data_transformation_config.label_encoder_path)
+        
     
         except Exception as e:
             raise CustomException(e,sys)

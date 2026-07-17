@@ -37,6 +37,7 @@ class DataTransformationConfig:
     transformed_train_dir:str = os.path.join(data_transformation_dir,DATA_TRANSFORMATION_TRAIN_DIR)
     transformed_test_dir:str = os.path.join(data_transformation_dir,DATA_TRANSFORMATION_TEST_DIR)
     transformed_scaled_dir:str = os.path.join(data_transformation_dir,DATA_TRANSFORMATION_SCALER_DIR)
+    label_encoder_dir  : str = os.path.join(data_transformation_dir, LABEL_ENCODER_DIR)
 
     X_train_path:str = os.path.join(transformed_train_dir,X_TRAIN_FILE_NAME)
     X_test_path:str = os.path.join(transformed_test_dir,X_TEST_FILE_NAME)
@@ -47,6 +48,7 @@ class DataTransformationConfig:
     text_test_path:str = os.path.join(transformed_test_dir,TEXT_TEST_FILE_NAME)
     
     scaler_path:str = os.path.join(transformed_scaled_dir,SCALER_FILE_NAME)
+    label_encoder_path : str = os.path.join(label_encoder_dir, LABEL_ENCODER_FILE)
 
 
 @dataclass

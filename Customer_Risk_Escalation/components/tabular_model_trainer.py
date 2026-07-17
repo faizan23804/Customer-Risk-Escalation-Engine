@@ -145,7 +145,8 @@ class ModelTrainer:
             trained_models = {}
 
             for model_name, model in models.items():
-
+                
+                logging.info("\n" + "="*75)
                 logging.info(f"Training {model_name}...")
 
                 with mlflow.start_run(run_name=model_name):
@@ -183,6 +184,7 @@ class ModelTrainer:
 
                     print(classification_report(y_test, y_pred, target_names=['Not Escalated', 'Escalated']))
                     logging.info(classification_report(y_test, y_pred, target_names=['Not Escalated', 'Escalated']))
+                    
 
                     mlflow.log_params(model.get_params())
 
@@ -294,6 +296,7 @@ class ModelTrainer:
             logging.info(f"Recall     : {best_row['Recall']}")
             logging.info(f"ROC AUC    : {best_row['ROC AUC']}")
             logging.info(f"Saved to   : {self.model_trainer_config.trained_model_path}")
+            logging.info("\n" + "="*75)
 
             return model_trainer_artifact
 

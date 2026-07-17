@@ -26,6 +26,7 @@ class DataIngestion:
             )
 
             logging.info(f"Data ingestion completed. Shape: {df.shape}")
+            logging.info("\n" + "="*75)
             return artifact
 
         except Exception as e:

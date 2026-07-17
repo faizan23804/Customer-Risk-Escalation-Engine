@@ -153,10 +153,19 @@ class FusionModel:
                 mlflow.lightgbm.log_model(fusion_model, "fusion_lgbm") # type: ignore
 
                 logging.info(f"  Accuracy  : {metrics['accuracy']}")
+                print(f"  Accuracy  : {metrics['accuracy']}")
+
                 logging.info(f"  F1 Score  : {metrics['f1_score']}")
+                print(f"  F1 Score  : {metrics['f1_score']}")
+
                 logging.info(f"  Precision : {metrics['precision']}")
+                print(f"  Precision : {metrics['precision']}")
+
                 logging.info(f"  Recall    : {metrics['recall']}")
+                print(f"  Recall    : {metrics['recall']}")
+                
                 logging.info(f"  ROC AUC   : {metrics['roc_auc']}")
+                print(f"  ROC AUC   : {metrics['roc_auc']}")
 
                 logging.info("\nClassification Report:")
                 logging.info(classification_report(
@@ -223,7 +232,7 @@ class FusionModel:
                 roc_auc=float(metrics["roc_auc"])
             )
             
-            logging.info("NLP Trainer Completed")
+            logging.info("Model Fusion Trainer Completed")
             logging.info(f"Fusion Model : {self.fusion_model_config.fusion_model_path}")
 
             return fusion_model_artifact

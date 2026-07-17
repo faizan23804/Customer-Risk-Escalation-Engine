@@ -145,6 +145,7 @@ class NLPTrainer:
     def initialize_nlp_trainer(self):
         try:
             logging.info("NLP Trainer Started")
+            logging.info("\n" + "="*75)
 
             ##Load Data
             text_train, text_test = self.load_text_data()

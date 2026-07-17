@@ -35,6 +35,7 @@ DATA_TRANSFORMATION_DIR_NAME:str = "data_transformation"
 DATA_TRANSFORMATION_TRAIN_DIR:str = os.path.join("transformed", "train")
 DATA_TRANSFORMATION_TEST_DIR:str = os.path.join("transformed", "test")
 DATA_TRANSFORMATION_SCALER_DIR:str = os.path.join("transformed", "scaler")
+LABEL_ENCODER_DIR:str  = os.path.join("transformed","label_encoder")
 
 X_TRAIN_FILE_NAME:str = "X_train.csv"
 X_TEST_FILE_NAME:str = "X_test.csv"
@@ -43,6 +44,7 @@ Y_TEST_FILE_NAME:str = "y_test.csv"
 TEXT_TRAIN_FILE_NAME:str = "text_train.csv"
 TEXT_TEST_FILE_NAME:str = "text_test.csv"
 SCALER_FILE_NAME:str = "scaler.pkl"
+LABEL_ENCODER_FILE:str = "label_encoders.pkl"
 
 TEST_SIZE:float = 0.2
 RANDOM_STATE:int = 42
