@@ -11,6 +11,19 @@ CURRENT_YEAR = date.today().year
 SCHEMA_FILE_PATH = os.path.join('Customer_Risk_Escalation','config','schema.yaml')
 
 
+SCALER_COLUMNS = [
+    'customer_segment',
+    'product_area',
+    'issue_type',
+    'sla_plan',
+    'resolution_time_hours',
+    'has_attachment',
+    'created_year',
+    'created_month',
+    'weekday_num',
+    'is_unresolved'
+]
+
 """
 Data Ingestion related constant.
 """
