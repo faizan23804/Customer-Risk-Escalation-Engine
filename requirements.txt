@@ -11,6 +11,7 @@ psycopg2-binary
 sqlalchemy
 spacy
 
+
 streamlit
 fastapi
 uvicorn
@@ -23,6 +24,7 @@ shap
 
 matplotlib
 seaborn
+plotly
 python-dotenv
 ipykernel
 pyyaml

@@ -19,7 +19,7 @@ from Customer_Risk_Escalation.logger.logging import logging
 from Customer_Risk_Escalation.constant import *
 
 
-# ── Typed output container ────────────────────────────────
+#Typed output container
 @dataclass
 class PredictionResult:
     risk_score   : float
@@ -51,7 +51,7 @@ class PredictPipeline:
 
     def load_artifacts(self):
         try:
-            # ── Find latest artifact directory ────────────
+            #Find latest artifact directory
             artifact_base = ARTIFACTS_DIR
             runs = sorted(os.listdir(artifact_base), reverse=True)
             latest_run    = runs[0]
@@ -59,7 +59,7 @@ class PredictPipeline:
 
             logging.info(f"Loading artifacts from: {artifact_path}")
 
-            # ── Load fusion model ──────────────────────────
+            #Load fusion model
             fusion_model_path = os.path.join(
                 artifact_path,
                 FUSION_DIR_NAME,
@@ -69,7 +69,7 @@ class PredictPipeline:
             fusion_model = joblib.load(fusion_model_path)
             logging.info("Fusion model loaded")
 
-            # ── Load scaler ────────────────────────────────
+            # Load scaler
             scaler_path = os.path.join(
                 artifact_path,
                 DATA_TRANSFORMATION_DIR_NAME,
@@ -79,7 +79,7 @@ class PredictPipeline:
             scaler = joblib.load(scaler_path)
             logging.info("Scaler loaded")
 
-            # ── Load label encoders ────────────────────────
+            #Load label encoders
             label_encoder_path = os.path.join(
                 artifact_path,
                 DATA_TRANSFORMATION_DIR_NAME,
@@ -89,7 +89,7 @@ class PredictPipeline:
             label_encoders = joblib.load(label_encoder_path)
             logging.info(f"Label encoders loaded: {list(label_encoders.keys())}")
 
-            # ── Load DistilBERT ────────────────────────────
+            #Load DistilBERT
             device    = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
             tokenizer = DistilBertTokenizer.from_pretrained(DISTILBERT_MODEL_NAME)
             bert_model = DistilBertModel.from_pretrained(DISTILBERT_MODEL_NAME)
@@ -107,7 +107,7 @@ class PredictPipeline:
         try:
             df = pd.DataFrame([raw_ticket])
 
-            # ── Step 1: Handle missing values ─────────────────
+            # Handle missing values
             df['is_unresolved'] = int(
                 pd.isnull(raw_ticket.get('resolution_time_hours'))
             )
@@ -115,19 +115,19 @@ class PredictPipeline:
                 SENTINEL_VALUE
             )
 
-            # ── Step 2: Datetime features ──────────────────────
+            #Datetime features
             created_at      = pd.to_datetime(df['created_at'].values[0])
             df['created_year']  = created_at.year
             df['created_month'] = created_at.month
             df['weekday_num']   = created_at.dayofweek
 
-            # ── Step 3: Ordinal encode priority ───────────────
+            #Ordinal encode priority
             priority_map = {
                 'low': 1, 'medium': 2, 'high': 3, 'urgent': 4
             }
             df['priority'] = df['priority'].map(priority_map).fillna(2)
 
-            # ── Step 4: Label encode categoricals ─────────────
+            #Label encode categoricals
             cat_cols = [
                 'customer_segment', 'product_area',
                 'issue_type', 'sla_plan', 'created_month'
@@ -142,7 +142,7 @@ class PredictPipeline:
                         df[col] = 0
                         logging.warning(f"Unseen category in {col} — defaulted to 0")
 
-            # ── Final step: enforce EXACT training columns ─────────
+            #  enforce EXACT training columns
             TRAINING_COLUMNS = [
                 'customer_segment',
                 'product_area',
@@ -197,7 +197,7 @@ class PredictPipeline:
 
     def extract_text_embedding(self, raw_ticket: dict) -> np.ndarray:
         try:
-            # ── Build combined text ────────────────────────
+            #Build combined text 
             combined_text = (
                 str(raw_ticket.get('initial_message', ''))    + " " +
                 str(raw_ticket.get('agent_first_reply', ''))  + " " +
@@ -207,7 +207,7 @@ class PredictPipeline:
             if not combined_text:
                 combined_text = "no text available"
 
-            # ── Tokenize ───────────────────────────────────
+            # Tokenize 
             encoding = self.tokenizer(
                 combined_text,
                 max_length     = NLP_MAX_LENGTH,
@@ -219,7 +219,7 @@ class PredictPipeline:
             input_ids      = encoding['input_ids'].to(self.device)
             attention_mask = encoding['attention_mask'].to(self.device)
 
-            # ── Extract CLS embedding ──────────────────────
+            #Extract CLS embedding 
             with torch.no_grad():
                 outputs = self.bert_model(
                     input_ids      = input_ids,
@@ -238,11 +238,11 @@ class PredictPipeline:
 
     def get_risk_level(self, score: float) -> str:
         try:
-            if score > 0.80:
+            if score > 0.75:
                 return "Critical"
-            elif score > 0.60:
+            elif score > 0.50:
                 return "High"
-            elif score > 0.40:
+            elif score > 0.20:
                 return "Medium"
             else:
                 return "Low"
@@ -254,23 +254,23 @@ class PredictPipeline:
                            X_fused: np.ndarray,
                            feature_names: list) -> List[Dict]:
         try:
-            # ── TreeExplainer — optimized for LightGBM ────
+            #TreeExplainer — optimized for LightGBM
             explainer   = shap.TreeExplainer(self.fusion_model)
             shap_values = explainer.shap_values(X_fused)
 
-            # ── For binary classification take class 1 ────
+            #For binary classification take class 1
             if isinstance(shap_values, list):
                 sv = shap_values[1][0]   # class 1, first row
             else:
                 sv = shap_values[0]
 
-            # ── Pair feature names with impact values ──────
+            # Pair feature names with impact values
             feature_impacts = list(zip(feature_names, sv))
 
             # ── Sort by absolute impact descending ─────────
             feature_impacts.sort(key=lambda x: abs(x[1]), reverse=True)
 
-            # ── Return top 5 as readable dicts ────────────
+            #Return top 5 as readable dicts
             top_reasons = [
                 {
                     "feature": name,
@@ -297,14 +297,14 @@ class PredictPipeline:
             logging.info("="*50)
             logging.info("Prediction started")
 
-            # ── Step 1: Transform tabular input ───────────
+            # Transform tabular input
             X_tabular = self.transform_input(raw_ticket)
 
-            # ── Step 2: Extract text embedding ────────────
+            # Extract text embedding
             X_embedding = self.extract_text_embedding(raw_ticket)
             
 
-            # ── Step 3: Concatenate ────────────────────────
+            # Concatenate 
             X_fused = np.concatenate(
                 [X_tabular.values, X_embedding], axis=1
             ).astype(np.float64)   # ← force float64
@@ -313,23 +313,23 @@ class PredictPipeline:
             print(f"X_fused dtype : {X_fused.dtype}")
 
 
-            # ── Step 4: Predict probability ───────────────
+            #  Predict probability 
             risk_score = float(
                 self.fusion_model.predict_proba(X_fused)[0][1]
             )
 
-            # ── Step 5: Get risk level ─────────────────────
+            #  Get risk level 
             risk_level = self.get_risk_level(risk_score)
 
-            # ── Step 6: Build feature names for SHAP ──────
+            #  Build feature names for SHAP 
             tabular_features   = X_tabular.columns.tolist()
             embedding_features = [f"emb_{i}" for i in range(X_embedding.shape[1])]
             all_feature_names  = tabular_features + embedding_features
 
-            # ── Step 7: SHAP explanation ───────────────────
+            #  SHAP explanation 
             top_reasons = self.explain_prediction(X_fused, all_feature_names)
 
-            # ── Step 8: Build result ───────────────────────
+            #Build result 
             result = PredictionResult(
                 risk_score  = round(risk_score, 4),
                 risk_level  = risk_level,
@@ -346,7 +346,7 @@ class PredictPipeline:
             raise CustomException(e, sys)
 
 
-# ── Quick test ─────────────────────────────────────────────
+#Quick test
 if __name__ == "__main__":
     sample_ticket = {
         "customer_segment"     : "enterprise",
