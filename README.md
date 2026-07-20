@@ -656,9 +656,9 @@ MIT License — free to use for learning and portfolio purposes.
 
 ## 👤 Author
 
-**Your Name**  
+**FAIZAN RIAZ**  
 Aspiring ML Engineer  
-[GitHub](https://github.com/YOUR_USERNAME) | [LinkedIn](https://linkedin.com/in/YOUR_PROFILE)
+[GitHub](https://github.com/faizan23804) | [LinkedIn](https://linkedin.com/in/faizanriaz23)
 
 ---
 
