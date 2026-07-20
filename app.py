@@ -1,5 +1,6 @@
 import streamlit as st # type: ignore
 import requests
+import os
 import pandas as pd # type: ignore
 import plotly.graph_objects as go # type: ignore
 import plotly.express as px # type: ignore
@@ -11,7 +12,7 @@ st.set_page_config(
     layout     = "wide"
 )
 
-API_URL = "http://localhost:8000"
+API_URL = os.getenv("API_URL", "http://localhost:8000")
 
 #  Header 
 st.title("🚨 Customer Risk & Escalation Engine")

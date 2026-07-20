@@ -1,0 +1,39 @@
+# Python cache — not needed in container
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+
+# Virtual environment — container installs its own
+venv/
+env/
+
+# Jupyter notebooks — not needed in production
+.ipynb_checkpoints/
+notebooks/
+
+# Git history — not needed in container
+.git/
+.gitignore
+
+# DVC — not needed in production
+.dvc/
+.dvcignore
+
+# MLflow runs — not needed in production
+mlruns/
+mlartifacts/
+
+# Raw and processed data — mounted as volume
+data/
+
+# Environment file — passed separately via env_file
+.env
+
+# IDE settings
+.vscode/
+.idea/
+
+# Test files
+tests/

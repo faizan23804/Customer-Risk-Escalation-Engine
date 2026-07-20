@@ -14,6 +14,11 @@ from Customer_Risk_Escalation.exceptions.exception import CustomException
 from Customer_Risk_Escalation.logger.logging import logging
 
 
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+os.chdir(PROJECT_ROOT)
+sys.path.insert(0, PROJECT_ROOT)
+
+
 #  Pydantic input model 
 class TicketInput(BaseModel):
     customer_segment      : str

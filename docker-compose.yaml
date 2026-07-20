@@ -1,0 +1,87 @@
+version: '3.8'
+
+services:
+
+  # ────────────────────────────────────────────────────────
+  # SERVICE 1 — FastAPI prediction server
+  # Runs: python api.py via uvicorn
+  # ────────────────────────────────────────────────────────
+  api:
+    build:
+      context: .           # build from project root
+      dockerfile: Dockerfile
+    container_name: escalation_api
+    
+    # Override default CMD — run api.py
+    command: uvicorn api:app --host 0.0.0.0 --port 8000
+
+    # Map container port 8000 to your machine port 8000
+    ports:
+      - "8000:8000"
+
+    # Mount folders from your disk into container
+    # Left side  = your actual disk path
+    # Right side = path inside container
+    volumes:
+      - ./artifacts:/app/artifacts
+      - ./Customer_Risk_Escalation:/app/Customer_Risk_Escalation
+
+    # Environment variables
+    environment:
+      - PYTHONUNBUFFERED=1    # shows Python logs immediately
+    
+    # Load .env file — DB credentials, API keys
+    # .env never gets baked into image
+    env_file:
+      - .env
+
+    # Restart automatically if container crashes
+    restart: unless-stopped
+
+    # Health check — Docker pings /health every 30 seconds
+    # Container marked healthy only when this passes
+    # Streamlit waits for this before starting
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s      # check every 30 seconds
+      timeout: 10s       # wait max 10 seconds for response
+      retries: 3         # fail 3 times before marking unhealthy
+      start_period: 90s  # give 90 seconds to load DistilBERT
+
+  # ────────────────────────────────────────────────────────
+  # SERVICE 2 — Streamlit business dashboard
+  # Runs: python app.py via streamlit
+  # ────────────────────────────────────────────────────────
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: escalation_dashboard
+
+    # Override default CMD — run app.py
+    command: streamlit run app.py --server.port 8501 --server.address 0.0.0.0
+
+    # Map container port 8501 to your machine port 8501
+    ports:
+      - "8501:8501"
+
+    volumes:
+      - ./artifacts:/app/artifacts
+      - ./Customer_Risk_Escalation:/app/Customer_Risk_Escalation
+
+    environment:
+      - PYTHONUNBUFFERED=1
+      # Streamlit calls FastAPI via service name "api"
+      # not localhost — because they are separate containers
+      - API_URL=http://api:8000
+
+    env_file:
+      - .env
+
+    # Only start AFTER api service passes health check
+    depends_on:
+      api:
+        condition: service_healthy
+
+    restart: unless-stopped
+

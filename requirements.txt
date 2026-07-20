@@ -9,7 +9,6 @@ datasets
 
 psycopg2-binary
 sqlalchemy
-spacy
 
 
 streamlit
